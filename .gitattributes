@@ -1,0 +1,36 @@
+
+# .gitattributes
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# バイナリファイル（主にVBAやExcelマクロ用）
+*.xlsm binary
+*.xlb binary
+*.accdb binary
+
+# VBAのコードファイルはテキストとして扱う
+*.bas text eol=lf
+*.cls text eol=lf
+*.frm text eol=lf
+
+# Pythonコードはテキストとして扱う（改行をLFで統一）
+*.py text eol=lf
+
+# SQLスクリプトはテキスト
+*.sql text eol=lf
+
+# シェルスクリプトもテキスト
+*.sh text eol=lf
+
+# OS特有のファイルを無視
+.DS_Store export-ignore
+Thumbs.db export-ignore
+
+# バックアップファイルを無視
+*.bak export-ignore
+*.tmp export-ignore
+
+# 特定のIDEの設定ファイルを無視（例: VSCode）
+.vscode/* export-ignore
+*.code-workspace export-ignore

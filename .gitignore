@@ -1,0 +1,30 @@
+
+# .gitignore
+
+# OS特有のファイルを無視
+.DS_Store
+Thumbs.db
+
+# IDEの設定ファイルを無視
+.vscode/
+.idea/
+*.code-workspace
+
+# バックアップファイルを無視
+*.bak
+*.tmp
+
+# Python環境関連
+__pycache__/
+*.pyc
+
+# SQLダンプファイル
+*.sql~
+
+# VBA関連のバックアップ
+*.frm~
+*.cls~
+*.bas~
+~$*.xlsm
+
+memo.txt

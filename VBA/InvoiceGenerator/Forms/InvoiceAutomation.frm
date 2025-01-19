@@ -36,7 +36,7 @@ Private Sub CommandButtonGenerate_Click()
     
     
     With params
-        .CustomerName = ""
+        .customerName = ""
         .SingleYear = ""
         .SingleMonth = ""
         .StartYear = ""
@@ -61,7 +61,7 @@ Private Sub CommandButtonGenerate_Click()
             End If
             
             With params
-                .CustomerName = TextBox1_Name.text
+                .customerName = TextBox1_Name.text
                 .SingleYear = TextBoxSingleYear.text
                 .SingleMonth = TextBoxSingleMonth.text
                 Set .CustomerListSheet = ThisWorkbook.Worksheets("顧客情報")
@@ -79,7 +79,7 @@ Private Sub CommandButtonGenerate_Click()
             End If
             
             With params
-                .CustomerName = TextBox2_Name.text
+                .customerName = TextBox2_Name.text
                 .StartYear = TextBoxStartYear.text
                 .StartMonth = TextBoxStartMonth.text
                 .LastYear = TextBoxLastYear.text
@@ -94,10 +94,28 @@ Private Sub CommandButtonGenerate_Click()
     If result = 2 Then Exit Sub
     
     '請求書生成関数呼び出し
-    Call GenerateInvoiceSheet(params, GenerateInvoiceFlag)
+    Dim isInvoiceGenerated As Boolean
+    isInvoiceGenerated = InvoiceGenerator(params, GenerateInvoiceFlag)
     
+    If Not isInvoiceGenerated Then
+        Beep
+        MsgBox "請求書が生成できませんでした。"
+        LabelMessage.caption = "請求書が生成できませんでした。" & vbCrLf & vbCrLf & "正しい値を入力してください。"
+        LabelMessage.ForeColor = RGB(255, 0, 0)
+        Exit Sub
+    End If
+    
+    MsgBox "請求書を生成しました。"
     LabelMessage.ForeColor = RGB(0, 0, 0)
     LabelMessage.caption = "請求書を生成しました。" & vbCrLf & vbCrLf & "続けて生成ができます。"
+    TextBoxSingleYear.text = ""
+    TextBoxSingleMonth.text = ""
+    TextBox1_Name.text = ""
+    TextBoxStartYear.text = ""
+    TextBoxStartMonth.text = ""
+    TextBoxLastYear.text = ""
+    TextBoxLastMonth.text = ""
+    TextBox2_Name.text = ""
     
 End Sub
 

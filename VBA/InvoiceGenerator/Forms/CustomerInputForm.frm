@@ -35,7 +35,7 @@ Private Sub CommandButtonConfirm_Click()
     
     Set CustomerListSheet = ThisWorkbook.Sheets("å⁄ãqèÓïÒ")
     
-    lastRow = CustomerListSheet.Cells(CustomerListSheet.Rows.Count, leftmostCol).End(xlUp).Row
+    lastRow = CustomerListSheet.Cells(CustomerListSheet.Rows.Count, leftmostCol).End(xlUp).row
     lastCol = CustomerListSheet.Cells(topmostRow, CustomerListSheet.Cells.Columns.Count).End(xlToLeft).Column
     targetRow = lastRow + 1
     
@@ -87,7 +87,7 @@ Private Sub CommandButtonConfirm_Click()
     billMonth = Format(DateAdd("m", 1, regDate), "yyyy/mm")
     CustomerListSheet.Cells(targetRow, billMonthCol).Value = billMonth
     
-    lastRow = CustomerListSheet.Cells(CustomerListSheet.Rows.Count, leftmostCol).End(xlUp).Row
+    lastRow = CustomerListSheet.Cells(CustomerListSheet.Rows.Count, leftmostCol).End(xlUp).row
     lastCol = CustomerListSheet.Cells(topmostRow, CustomerListSheet.Cells.Columns.Count).End(xlToLeft).Column
     Call TableFormat(CustomerListSheet, topmostRow, leftmostCol, lastRow, lastCol)
     

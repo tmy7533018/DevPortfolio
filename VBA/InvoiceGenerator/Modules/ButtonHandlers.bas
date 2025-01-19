@@ -10,7 +10,6 @@ End Sub
 
 Sub GenerateInvoiceButton()
     
-    'InvoiceAutomation.Show
-    MsgBox "ŠJ”­’†"
+    InvoiceAutomation.Show
     
 End Sub

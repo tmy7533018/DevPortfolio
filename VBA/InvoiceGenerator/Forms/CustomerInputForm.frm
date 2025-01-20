@@ -32,8 +32,13 @@ Private Sub CommandButtonConfirm_Click()
     Dim prompt As String
     Dim result As VbMsgBoxResult
     
+    On Error GoTo ErrorHandler
     
     Set CustomerListSheet = ThisWorkbook.Sheets("顧客情報")
+    If CustomerListSheet Is Nothing Then
+        MsgBox "顧客情報シートが見つかりません。", vbCritical
+        Exit Sub
+    End If
     
     lastRow = CustomerListSheet.Cells(CustomerListSheet.Rows.Count, leftmostCol).End(xlUp).row
     lastCol = CustomerListSheet.Cells(topmostRow, CustomerListSheet.Cells.Columns.Count).End(xlToLeft).Column
@@ -100,6 +105,11 @@ Private Sub CommandButtonConfirm_Click()
     TextBoxItem.text = ""
     TextBoxQuantity.text = ""
     TextBoxPrice.text = ""
+    Exit Sub
+    
+ErrorHandler:
+    MsgBox "予期しないエラーが発生しました。" & vbCrLf & "Error : " & Err.Description, vbCritical
+    Resume Next
     
 End Sub
 

@@ -34,6 +34,7 @@ Private Sub CommandButtonGenerate_Click()
     Dim result As VbMsgBoxResult
     Dim params As BillingParams
     
+    On Error GoTo errorhandler
     
     With params
         .customerName = ""
@@ -116,6 +117,10 @@ Private Sub CommandButtonGenerate_Click()
     TextBoxLastYear.text = ""
     TextBoxLastMonth.text = ""
     TextBox2_Name.text = ""
+    Exit Sub
+    
+errorhandler:
+    MsgBox "ó\ä˙ÇµÇ»Ç¢ÉGÉâÅ[Ç™î≠ê∂ÇµÇ‹ÇµÇΩÅB" & vbCrLf & "Error : " & Err.Description, vbCritical
     
 End Sub
 

@@ -55,7 +55,7 @@ Function InvoiceGenerator(params As BillingParams, flag As String) As Boolean
                 '請求日と名前
                 For i = topmostRow + 1 To lastRow
                     isMach = params.CustomerListSheet.Cells(i, billMonthCol).Value = singleYearMonth _
-                            And params.CustomerListSheet.Cells(i, nameCol).Value = params.customerName
+                            And Replace(params.CustomerListSheet.Cells(i, nameCol).Value, " ", "") = params.customerName
                             
                     If isMach Then
                         ReDim Preserve customerDataAry(0 To cnt)
@@ -89,7 +89,7 @@ Function InvoiceGenerator(params As BillingParams, flag As String) As Boolean
                 For i = topmostRow + 1 To lastRow
                     isMach = CDate(params.CustomerListSheet.Cells(i, billMonthCol)) >= startYearMonth _
                             And CDate(params.CustomerListSheet.Cells(i, billMonthCol)) <= lastYearMonth _
-                            And params.CustomerListSheet.Cells(i, nameCol) = params.customerName
+                            And Replace(params.CustomerListSheet.Cells(i, nameCol).Value, " ", "") = params.customerName
                             
                     If isMach Then
                         ReDim Preserve customerDataAry(0 To cnt)
@@ -144,10 +144,6 @@ Function InvoiceGenerator(params As BillingParams, flag As String) As Boolean
     Next
     
     
-    
-    'dict(customerName)に、顧客名ごとにデータを分けた
-    'それを使って以下に請求書生成アルゴリズムを書く
-    
     Dim key As Variant
     Dim Data() As Variant
     
@@ -171,12 +167,18 @@ End Function
 Sub BuildCustomerInvoiceSheet(customerName As String, customerData As Variant)
 
     Dim ws As Worksheet
+    Dim uniqueSheetName As String
     Dim i As Long, row As Long
     Dim totalAmount As Double
     
     ' 新しいシートを作成
     Set ws = ThisWorkbook.Sheets.Add
-    ws.name = "請求書_" & customerName
+    uniqueSheetName = "請求書_" & customerName
+    If WorkSheetExists(uniqueSheetName) Then
+        uniqueSheetName = uniqueSheetName & "_" & Format(Now, "yyyyMMddHHmmss")
+    End If
+    ws.name = uniqueSheetName
+    
     ws.Activate
     ActiveWindow.Zoom = 85
     
@@ -217,10 +219,14 @@ Sub BuildCustomerInvoiceSheet(customerName As String, customerData As Variant)
         .Range("A34").Value = "備考："
     End With
     
+    '請求書生成日
+    ws.Range("A3").Value = Format(Date, "yyyy年MM月dd日")
+    
     '請求書番号
     Dim timeStamp As String
     timeStamp = "I-" & Format(Now, "yyyyMMddHHmmss")
     ws.Range("E3").Value = timeStamp
+    ws.Range("E3").ShrinkToFit = True
     
     '請求日
     ws.Range("E4").Value = Format(customerData(0)(1, 7), "yyyy年MM月")
@@ -261,3 +267,12 @@ Sub BuildCustomerInvoiceSheet(customerName As String, customerData As Variant)
     
 End Sub
 
+Function WorkSheetExists(sheetName As String) As Boolean
+    
+    Dim ws As Worksheet
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets(sheetName)
+    WorkSheetExists = Not ws Is Nothing
+    On Error GoTo 0
+    
+End Function
